@@ -12,8 +12,8 @@
 
 
 (s/fdef add-vec
-  :args (s/coll-of vector?)
-  :ret vector?)
+  :args (s/coll-of :gol/coord)
+  :ret :gol/coord)
 (defn add-vec
   "adds the members of the vectors together"
   [& vecs]
@@ -83,7 +83,9 @@
 
 
 (s/fdef survive?
-  :args (s/and int? #(>= % 0) #(<= % 8))
+  :args (s/cat :game :gol/world
+               :coord :gol/coord
+               :num-neighbours (s/and int? #(>= % 0) #(<= % 8)))
   :ret boolean?)
 (defn survive?
   "Dictates if cell should survive"

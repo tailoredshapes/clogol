@@ -1,9 +1,7 @@
-(use 'clojure-cukes.core)
 (use 'clojure.test)
 (use 'clojure.string)
-(use 'gol)
 (use 'string-util)
-
+(use 'gol)
 
 (def game (atom #{}))
 
