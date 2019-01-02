@@ -11,9 +11,6 @@
                       (range -1 2)))))
 
 
-(s/fdef add-vec
-  :args (s/coll-of :gol/coord)
-  :ret :gol/coord)
 (defn add-vec
   "adds the members of the vectors together"
   [& vecs]
