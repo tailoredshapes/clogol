@@ -1,4 +1,5 @@
 (ns connect.core
+  (:require [clojure.data.json :as json])
   (:gen-class
    :methods [^:static [handler [java.util.Map] String]]))
 
@@ -22,6 +23,19 @@
   nil
   (->cljmap [_] nil))
 
+(def response-template {
+                        :isBase64Encoded false
+                        :statusCode 200
+                        :headers {}
+                        :body "OK"
+                        })
+
+
 (defn -handler [s]
-  (println (->cljmap s))
-  (println "Hello World!"))
+  (let [event (->cljmap s)]
+    (println (str "event: " event))
+    (println (str "Response" (json/write-str response-template)))
+    (println (str "ConnectionId:" (-> event
+                                   :requestContext
+                                   :connectionId)))
+    (json/write-str response-template)))
