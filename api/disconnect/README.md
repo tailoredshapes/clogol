@@ -1,4 +1,4 @@
-# disconnect
+# connect
 
 FIXME: description
 
@@ -12,7 +12,7 @@ FIXME: explanation
 
     $ lein uberjar
 
-In AWS Lambda console, select `Java` runtime and add `disconnect.core::handler` as handler function.
+In AWS Lambda console, select `Java` runtime and add `connect.core::handler` as handler function.
 
 ## Options
 

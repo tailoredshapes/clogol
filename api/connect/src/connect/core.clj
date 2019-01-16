@@ -1,7 +1,7 @@
 (ns connect.core
   (:require [clojure.data.json :as json])
   (:gen-class
-   :methods [^:static [handler [java.util.Map] String]]))
+   :methods [^:static [handler [java.util.Map] java.util.Map]]))
 
 
 (defprotocol ConvertibleToClojure
@@ -24,11 +24,10 @@
   (->cljmap [_] nil))
 
 (def response-template {
-                        :isBase64Encoded false
-                        :statusCode 200
-                        :headers {}
-                        :body "OK"
-                        })
+                        "isBase64Encoded" false
+                        "statusCode" 200
+                        "headers" {"Content-Type" "text/plain"}
+                        "body" "OK"})
 
 
 (defn -handler [s]
@@ -38,4 +37,4 @@
     (println (str "ConnectionId:" (-> event
                                    :requestContext
                                    :connectionId)))
-    (json/write-str response-template)))
+    response-template))

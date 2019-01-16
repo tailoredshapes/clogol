@@ -5,4 +5,3 @@
                  [org.clojure/data.json "0.2.6"]
                  [com.amazonaws/aws-lambda-java-core "1.0.0"]]
   :aot :all)
-  
