@@ -1,7 +1,9 @@
 (ns connect.core
   (:require [clojure.data.json :as json])
   (:gen-class
-   :methods [^:static [handler [java.util.Map] java.util.Map]]))
+   :methods [^:static [handler [java.util.Map] java.util.Map]])
+  (:import (com.amazonaws.services.dynamodbv2 AmazonDynamoDBClientBuilder)
+           (com.amazonaws.services.dynamodbv2.document Item DynamoDB)))
 
 
 (defprotocol ConvertibleToClojure
@@ -29,12 +31,12 @@
                         "headers" {"Content-Type" "text/plain"}
                         "body" "OK"})
 
-
 (defn -handler [s]
-  (let [event (->cljmap s)]
-    (println (str "event: " event))
-    (println (str "Response" (json/write-str response-template)))
-    (println (str "ConnectionId:" (-> event
-                                   :requestContext
-                                   :connectionId)))
+  (let [event (->cljmap s)
+        connectionId (-> event
+                         :requestContext
+                         :connectionId)
+        client (.build (AmazonDynamoDBClientBuilder/standard))
+        db (DynamoDB. client) table (.getTable db "clogol-views")]
+    (doto (Item.) (.withPrimaryKey "connectionId" connectionId))
     response-template))
