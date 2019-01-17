@@ -1,27 +1,11 @@
 (ns disconnect.core
-  (:require [clojure.data.json :as json])
+  (:require [util.core :as util])
   (:gen-class
-   :methods [^:static [handler [java.util.Map] java.util.Map]]))
+   :methods [^:static [handler [java.util.Map] java.util.Map]])
+  (:import (com.amazonaws.services.dynamodbv2 AmazonDynamoDBClientBuilder)
+           (com.amazonaws.services.dynamodbv2.document DynamoDB)
+           (com.amazonaws.services.dynamodbv2.document.spec DeleteItemSpec)))
 
-
-(defprotocol ConvertibleToClojure
-  (->cljmap [o]))
-
-(extend-protocol ConvertibleToClojure
-  java.util.Map
-  (->cljmap [o] (let [entries (.entrySet o)]
-                (reduce (fn [m [^String k v]]
-                          (assoc m (keyword k) (->cljmap v)))
-                        {} entries)))
-
-  java.util.List
-  (->cljmap [o] (vec (map ->cljmap o)))
-
-  java.lang.Object
-  (->cljmap [o] o)
-
-  nil
-  (->cljmap [_] nil))
 
 (def response-template {
                         "isBase64Encoded" false
@@ -32,10 +16,16 @@
 
 
 (defn -handler [s]
-  (let [event (->cljmap s)]
-    (println (str "event: " event))
-    (println (str "Response" (json/write-str response-template)))
-    (println (str "ConnectionId:" (-> event
-                                   :requestContext
-                                   :connectionId)))
+  (let [event (util/->cljmap s)
+        connectionId (-> event
+                         :requestContext
+                         :connectionId)
+        client (.build (AmazonDynamoDBClientBuilder/standard))
+        db (DynamoDB. client)
+        table (.getTable db "clogol-views")]
+    (.deleteItem table
+                 (doto
+                     (DeleteItemSpec.)
+                   (.withPrimaryKey "connectionId" connectionId)))
+
     response-template))
