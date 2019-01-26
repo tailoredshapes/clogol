@@ -64,3 +64,9 @@
     (let [game (su/parse-world t1)
           expected (su/parse-world t1')]
       (is (= expected (then game))))))
+
+(deftest subsets
+  (testing "should return a subset of the world"
+    (let [game (su/parse-world t1)]
+      (is (= #{[1,1]} (sample game [0 1] [2 1])))
+      (is (= #{[1,1] [1,2] [1,3]} (sample game [0 0] [2 4]))))))

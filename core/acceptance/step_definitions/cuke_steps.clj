@@ -31,3 +31,14 @@
                                 @game
                                 "\nWhat we wanted: \n"
                                 exp))))
+
+(Given #"^we place this at \((\d+),(\d+)\):$" [x y life]
+       (comment  Write code here that turns the phrase above into concrete actions  )
+       (throw (cucumber.api.PendingException.)))
+
+(When #"^we advance the game (\d+) times$" [n]
+      (repeat n (swap! game then)))
+
+(Then #"^there should be this at \((\d+),(\d+)\):$" [x y life]
+      (comment  Write code here that turns the phrase above into concrete actions  )
+      (throw (cucumber.api.PendingException.)))

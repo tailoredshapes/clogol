@@ -2,13 +2,11 @@
   (:require [clojure.spec.alpha :as s]
             [specs :as p]))
 
-
 (def neighbours
-  (filter #(not (= [0 0] %))
-          (apply concat
-                 (map #(map (partial conj [%])
-                            (range -1 2))
-                      (range -1 2)))))
+  (remove (partial = [0 0])
+          (for [x (range -1 2)
+                y (range -1 2)]
+                        [x y])))
 
 
 (defn add-vec
@@ -46,13 +44,19 @@
 (defn neg-vec? [[x y]]
   (or (< x 0) (< y 0)))
 
+(s/fdef translate-cells
+  :arg (s/cat :v :gol/coord :cells s/coll-of ::coord)
+  :ret (s/coll-of ::coord))
+(defn translate-cells [v cells]
+  (map (partial add-vec v) cells))
+
 (s/fdef get-neighbours
   :arg (s/cat :coord :gol/coord)
   :ret (s/coll-of ::coord :type set?))
 (defn get-neighbours
   "Lists all cells that are adjacent to the cell"
   [coord]
-  (into #{} (remove neg-vec? (map (partial add-vec coord) neighbours))))
+  (into #{} (remove neg-vec? (translate-cells coord neighbours))))
 
 
 (s/fdef count-neighbours
@@ -106,3 +110,17 @@
               s))
           #{}
           (interesting-cells game)))
+
+(s/fdef sample
+  :args (s/cat :game :gol/world
+               :min :gol/coord
+               :max :gol/coord)
+  :ret :gol/world)
+(defn sample [game min max]
+  (let [grid (for [x (range (first min) (inc (first max)))
+                   y (range (second min) (inc (second max)))]
+               [x y])]
+    (into #{}
+          (filter (partial alive?
+                           game)
+                  grid))))
