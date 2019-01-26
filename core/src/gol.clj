@@ -124,3 +124,15 @@
           (filter (partial alive?
                            game)
                   grid))))
+
+(s/fdef dimensions
+  :args (s/cat :game :gol/world)
+  :ret (s/coll-of :gol/coord))
+(defn dimensions [game]
+  (reduce (fn [min-max cell]
+            [[(min (get-in min-max [0 0]) (first cell))
+              (min (get-in min-max [0 1]) (second cell))]
+             [(max (get-in min-max [1 0]) (first cell))
+              (max (get-in min-max [1 1]) (second cell))]])
+          [[0 0] [0 0]]
+          game))

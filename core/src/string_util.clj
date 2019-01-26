@@ -1,7 +1,8 @@
 (ns string-util
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as st]
-            [specs :as p]))
+            [specs :as p]
+            [gol :as g]))
 
 (s/def ::row (s/coll-of string?))
 (s/def ::csv (s/coll-of ::row))
@@ -40,3 +41,23 @@
   (disj (into #{}
               (find-xs (csv w)))
         nil))
+
+(defn line-world [w dim]
+  (for [y (range (get-in dim [0 0])
+                 (inc (get-in dim [1 0])))
+        x (range (get-in dim [0 1])
+                 (inc (get-in dim [1 1])))]
+    (if (g/alive? w [x y])
+      "X"
+      "0")))
+
+(s/fdef print-world
+  :args (s/cat :w :gol/world)
+  :ret string?)
+(defn print-world [w]
+  (let [dim (g/dimensions w)]
+    (st/join "\n"
+             (map (partial st/join ",")
+                  (partition (inc (- (get-in dim [1 0])
+                                     (get-in dim [0 0])))
+                             (line-world w dim)))) ))
