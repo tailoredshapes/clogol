@@ -48,8 +48,7 @@
       (let [x (read-string xs)
             y (read-string ys)
             dims (find-dimensions life)]
-        (comment "Almost finished, just debugging")
-        (throw (cucumber.api.PendingException.))
+        #_(throw (cucumber.api.PendingException.))
         (assert (= (parse-world life) (sample @game
                                               [x y]
                                               [(+ (first dims) x)

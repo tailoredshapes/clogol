@@ -28,8 +28,8 @@
   :ret (s/coll-of :gol/coord))
 (defn find-xs [t]
   (remove nil? (apply concat
-                      (map-indexed (fn [x line]
-                                     (map-indexed (fn [y v]
+                      (map-indexed (fn [y line]
+                                     (map-indexed (fn [x v]
                                                     (if (= v "X")
                                                       [x y])) line)) t))))
 
