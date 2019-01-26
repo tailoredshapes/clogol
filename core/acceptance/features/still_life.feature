@@ -25,6 +25,7 @@ Feature: Stable patterns
       0,0,X,X,0,0
       0,0,0,0,0,0
       """
+    And farts
     When we advance the game
     Then the game state is:
       """

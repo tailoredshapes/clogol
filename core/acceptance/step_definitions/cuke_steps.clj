@@ -8,8 +8,20 @@
 (Given #"^we have a game:$" [g]
        (reset! game (parse-world g)))
 
+(Given #"^we place this at \((\d+),(\d+)\):$" [x y life]
+       (let [coord [(read-string x) (read-string y)]
+             l (parse-world life)]
+         (swap! game
+                (fn [g]
+                  (into g
+                        (translate-cells coord l))))))
+
 (When #"^we advance the game$" []
       (swap! game then))
+
+(When #"^we advance the game (\d+) times$" [n]
+      (let [t (read-string n)]
+        (repeat t (swap! game then))))
 
 (Then #"^the cell (\d+),(\d+) should be dead$" [x y]
       (let [coord [(read-string x) (read-string y)]]
@@ -32,13 +44,13 @@
                                 "\nWhat we wanted: \n"
                                 exp))))
 
-(Given #"^we place this at \((\d+),(\d+)\):$" [x y life]
-       (comment  Write code here that turns the phrase above into concrete actions  )
-       (throw (cucumber.api.PendingException.)))
-
-(When #"^we advance the game (\d+) times$" [n]
-      (repeat n (swap! game then)))
-
-(Then #"^there should be this at \((\d+),(\d+)\):$" [x y life]
-      (comment  Write code here that turns the phrase above into concrete actions  )
-      (throw (cucumber.api.PendingException.)))
+(Then #"^there should be this at \((\d+),(\d+)\):$" [xs ys life]
+      (let [x (read-string xs)
+            y (read-string ys)
+            dims (find-dimensions life)]
+        (comment "Almost finished, just debugging")
+        (throw (cucumber.api.PendingException.))
+        (assert (= (parse-world life) (sample @game
+                                              [x y]
+                                              [(+ (first dims) x)
+                                               (+ (second dims) y)])))))

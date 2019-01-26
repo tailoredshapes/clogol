@@ -17,6 +17,12 @@
        (st/split-lines s)))
 
 
+(defn find-dimensions [s]
+  (let [c (csv s)
+        h (count c)
+        w (count (first c))]
+    [w h]))
+
 (s/fdef find-xs
   :args (s/cat :t ::csv)
   :ret (s/coll-of :gol/coord))
