@@ -74,4 +74,4 @@
 (deftest size
   (testing "should find the size of the world"
     (is (= [[0 0] [0 0]] (dimensions #{})))
-    (is (= [[0 0] [3 1]] (dimensions (su/parse-world t1))))))
+    (is (= [[1 1] [3 1]] (dimensions (su/parse-world t1))))))

@@ -47,9 +47,11 @@
 (Then #"^there should be this at \((\d+),(\d+)\):$" [xs ys life]
       (let [x (read-string xs)
             y (read-string ys)
-            dims (find-dimensions life)]
-        #_(throw (cucumber.api.PendingException.))
-        (assert (= (parse-world life) (sample @game
-                                              [x y]
-                                              [(+ (first dims) x)
-                                               (+ (second dims) y)])))))
+            dims (find-dimensions life)
+            smp (print-world (sample @game
+                                     [x y]
+                                     [(+ (first dims) x)
+                                      (+ (second dims) y)]))
+            expected (print-world (parse-world life)) ]
+        (assert (= expected smp) (str "Expected:\n" expected  "\n"
+                                      "Sample:\n" smp ))))
