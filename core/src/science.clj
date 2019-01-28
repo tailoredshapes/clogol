@@ -30,3 +30,16 @@
                 (max mxy cy)]])
             [[x, y] [x, y]]
             gs)))
+
+(s/fdef dimensions
+  :args (s/cat :game :gol/world)
+  :ret (s/coll-of :gol/coord))
+(defn dimensions [w]
+  (reduce (fn [[[mnx mny] [mxx mxy]]
+               [cx cy]]
+            [[(min mnx cx)
+              (min mny cy)]
+             [(max mxx cx)
+              (max mxy cy)]])
+          [[0 0] [0 0]]
+          w))

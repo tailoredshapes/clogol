@@ -3,7 +3,8 @@
             [clojure.test :refer :all]
             [clojure.spec.test.alpha :as stest]
             [clojure.string :as st]
-            [gol :as g]))
+            [gol :as g]
+            [science :as sci]))
 
 (stest/instrument)
 
@@ -32,6 +33,14 @@ X,0,0")
 0,0,0,0,0,0,0,0,0,0,0,X,X
 0,0,0,0,0,0,0,0,0,0,X,0,0"  )
 
+(def sample-t1
+  "0,0,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,X,X
+0,0,0,X,0,0")
+
 (deftest string-to-col
   (testing "we can take a string and get it into a collection"
     (is (= [["0" "0" "0"] ["0" "X" "X"] ["X" "0" "0"]] (csv t1)))))
@@ -53,6 +62,6 @@ X,0,0")
            (print-world (into #{} (g/translate-cells[10 10]
                                                     (parse-world t1)))))))
   (testing "prints a sample"
-    (is (= t1 (print-world (g/sample (into #{} (g/translate-cells[10 10]
-                                                               (parse-world t1)))
-                                     [7,7][12, 12]))))))
+    (is (= sample-t1 (print-sample (into #{} (g/translate-cells[10 10]
+                                                        (parse-world t1)))
+                                   [[7,7][12, 12]])))))

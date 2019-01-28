@@ -2,7 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as st]
             [specs :as p]
-            [gol :as g]))
+            [gol :as g]
+            [science :as sci]))
 
 (s/def ::row (s/coll-of string?))
 (s/def ::csv (s/coll-of ::row))
@@ -55,9 +56,19 @@
   :args (s/cat :w :gol/world)
   :ret string?)
 (defn print-world [w]
-  (let [dim (g/dimensions w)]
+  (let [dim (sci/dimensions w)]
     (st/join "\n"
              (map (partial st/join ",")
                   (partition (inc (- (get-in dim [1 0])
                                      (get-in dim [0 0])))
                              (line-world w dim)))) ))
+
+(s/fdef print-sample
+  :args (s/cat :w :gol/world :dims (s/coll-of :gol/coord :size 2))
+  :ret string?)
+(defn print-sample [w dim]
+  (st/join "\n"
+           (map (partial st/join ",")
+                (partition (inc (- (get-in dim [1 0])
+                                   (get-in dim [0 0])))
+                           (line-world w dim)))))

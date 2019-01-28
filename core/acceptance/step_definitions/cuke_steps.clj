@@ -2,6 +2,7 @@
 (use 'clojure.string)
 (use 'string-util)
 (use 'gol)
+(use 'science)
 
 (def game (atom #{}))
 
@@ -47,11 +48,14 @@
 (Then #"^there should be this at \((\d+),(\d+)\):$" [xs ys life]
       (let [x (read-string xs)
             y (read-string ys)
-            dims (find-dimensions life)
-            smp (print-world (sample @game
-                                     [x y]
-                                     [(+ (first dims) x)
-                                      (+ (second dims) y)]))
-            expected (print-world (parse-world life)) ]
-        (assert (= expected smp) (str "Expected:\n" expected  "\n"
-                                      "Sample:\n" smp ))))
+            [w h :as dims] (find-dimensions life)
+            smp (print-sample @game
+                              [[x y]
+                               [(+ (dec w) x)
+                                (+ (dec h) y)]])
+            expected life ]
+        (assert (= expected smp) (str "Coords:\t " [x y]
+                                      "Dims:\t" dims "\n"
+                                      "Expected:\n" expected  "\n"
+                                      "Sample:\n" smp \n
+                                      "World:\n" (print-world @game) \n))))
