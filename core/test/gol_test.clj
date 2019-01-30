@@ -64,3 +64,11 @@
     (let [game (su/parse-world t1)
           expected (su/parse-world t1')]
       (is (= expected (then game))))))
+
+(deftest super-sets
+  (testing "should combine worlds that have overlapping values"
+    (is (= [#{[0 0] [0 1] [20 20] [30 30]} #{[1 1] [40 40]}]
+           (find-super-sets []
+                            [#{[0 0] [0 1] [20 20]}
+                             #{[0 0] [30 30]}
+                             #{[1 1] [40 40]}])))))

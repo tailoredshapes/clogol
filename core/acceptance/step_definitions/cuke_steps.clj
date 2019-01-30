@@ -5,6 +5,7 @@
 (use 'science)
 
 (def game (atom #{}))
+(def hoods (atom []))
 
 (Given #"^we have a game:$" [g]
        (reset! game (parse-world g)))
@@ -23,6 +24,9 @@
 (When #"^we advance the game (\d+) times$" [n]
       (let [t (read-string n)]
         (repeat t (swap! game then))))
+
+(When #"^we request neighbourhoods$" []
+      (reset! hoods (neighbourhoods @game)))
 
 (Then #"^the cell (\d+),(\d+) should be dead$" [x y]
       (let [coord [(read-string x) (read-string y)]]
@@ -54,8 +58,16 @@
                                [(+ (dec w) x)
                                 (+ (dec h) y)]])
             expected life ]
-        (assert (= expected smp) (str "Coords:\t " [x y]
+        (assert (= expected smp) (str "Coords:\t " [x y] "\n"
                                       "Dims:\t" dims "\n"
                                       "Expected:\n" expected  "\n"
                                       "Sample:\n" smp \n
                                       "World:\n" (print-world @game) \n))))
+
+(Then #"^then the (\d+) neighbourhood is:$" [ns expected]
+      (let [n (read-string ns)
+            exp (parse-world expected)
+            neighbourhood (nth @hoods n)]
+        (assert (= (exp neighbourhood)) (str "n:\t" n "\n"
+                                             "exp:\t" exp "\n"
+                                             "neighbourhood:\t" neighbourhood))))

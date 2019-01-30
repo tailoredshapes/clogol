@@ -1,12 +1,13 @@
 (ns gol
-  (:require [clojure.spec.alpha :as s]
-            [specs :as p]))
+   (:require [clojure.spec.alpha :as s]
+             [clojure.set :as cs]
+             [specs :as p]))
 
 (def neighbours
   (remove (partial = [0 0])
           (for [x (range -1 2)
                 y (range -1 2)]
-                        [x y])))
+            [x y])))
 
 
 (defn add-vec
@@ -110,3 +111,28 @@
               s))
           #{}
           (interesting-cells game)))
+
+
+
+
+(s/fdef find-super-sets
+  :args (s/cat :last (s/coll-of :gol/world) :sets (s/coll-of :gol/world))
+  :ret (s/coll-of :gol/world))
+(defn find-super-sets [found [s & ss :as sets]]
+  (if (empty? sets)
+    found
+    (let [pred (fn [x] (empty? (cs/intersection s x)))
+          ftr (filter (complement pred) sets)
+          f (conj found (apply cs/union ftr))
+          sts (filter pred ss)]
+      (recur f sts))))
+
+(s/fdef neighbourhoods
+  :args (s/cat :game :gol/world)
+  :ret (s/coll-of :gol/world))
+(defn neighbourhoods [game]
+  (let [neighbour-set (fn [g]
+                        (into #{}
+                              (get-neighbours g)))
+        sets (map neighbour-set game) ]
+    (find-super-sets [] sets)))
