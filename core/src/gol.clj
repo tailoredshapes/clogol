@@ -135,4 +135,4 @@
                         (into #{}
                               (get-neighbours g)))
         sets (map neighbour-set game) ]
-    (find-super-sets [] sets)))
+    (map (partial cs/intersection game) (find-super-sets [] sets))))

@@ -9,7 +9,7 @@ Feature: Big games
       0,X,X,0
       0,0,0,0
       """
-      And we place this at (100,100):
+      And we place this at (50,50):
       """
       0,0,0,0
       0,X,X,0
@@ -24,7 +24,7 @@ Feature: Big games
       0,X,X,0
       0,0,0,0
       """
-     And there should be this at (100,100):
+     And there should be this at (50,50):
       """
       0,0,0,0
       0,X,X,0
@@ -33,19 +33,12 @@ Feature: Big games
       """
 
   Scenario: Should identify neighbourhoods
-    Given we place this at (0,0):
+      Given we have a game:
       """
-      0,0,0,0
-      0,X,X,0
-      0,X,X,0
-      0,0,0,0
-      """
-      And we place this at (3,0):
-      """
-      0,0,0,0
-      0,X,X,0
-      0,X,X,0
-      0,0,0,0
+      0,0,0,0,0,0,0
+      0,X,X,0,X,X,0
+      0,X,X,0,X,X,0
+      0,0,0,0,0,0,0
       """
       When we request neighbourhoods
       Then then the 0 neighbourhood is:
@@ -57,7 +50,7 @@ Feature: Big games
       """
 
 Scenario: Should identify multiple neighbourhoods
-    Given we place this at (0,0):
+    Given we have a game:
       """
       0,0,0,0
       0,X,X,0
@@ -72,14 +65,14 @@ Scenario: Should identify multiple neighbourhoods
       0,0,0,0
       """
       When we request neighbourhoods
-      Then then the 0 neighbourhood is:
+      Then then the 1 neighbourhood is:
       """
       0,0,0,0
       0,X,X,0
       0,X,X,0
       0,0,0,0
       """
-       And then the 1 neighbourhood is:
+       And then the 0 neighbourhood sampled at (10,0) is:
       """
       0,0,0,0
       0,X,X,0

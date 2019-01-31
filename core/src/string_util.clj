@@ -43,24 +43,19 @@
               (find-xs (csv w)))
         nil))
 
-(defn line-world [w dim]
-  (for [y (range (get-in dim [0 0])
-                 (inc (get-in dim [1 0])))
-        x (range (get-in dim [0 1])
-                 (inc (get-in dim [1 1])))]
-    (if (g/alive? w [x y])
-      "X"
-      "0")))
+(defn line-world [w [[mnx mny] [mxx mxy] :as dim]]
+  (for [y (range mny (inc mxy))
+        x (range mnx (inc mxx))]
+    (if (g/alive? w [x y]) "X" "0")))
 
 (s/fdef print-world
   :args (s/cat :w :gol/world)
   :ret string?)
 (defn print-world [w]
-  (let [dim (sci/dimensions w)]
+  (let [[[mnx mny] [mxx mxy] :as dim] (sci/dimensions w)]
     (st/join "\n"
              (map (partial st/join ",")
-                  (partition (inc (- (get-in dim [1 0])
-                                     (get-in dim [0 0])))
+                  (partition (inc (- mxx mnx))
                              (line-world w dim)))) ))
 
 (s/fdef print-sample

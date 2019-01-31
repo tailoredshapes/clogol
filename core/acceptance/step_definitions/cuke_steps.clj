@@ -66,8 +66,25 @@
 
 (Then #"^then the (\d+) neighbourhood is:$" [ns expected]
       (let [n (read-string ns)
-            exp (parse-world expected)
-            neighbourhood (nth @hoods n)]
-        (assert (= (exp neighbourhood)) (str "n:\t" n "\n"
-                                             "exp:\t" exp "\n"
-                                             "neighbourhood:\t" neighbourhood))))
+            neighbourhood (print-world (nth @hoods n))]
+        (assert (= (print-world (parse-world expected))
+                   neighbourhood)
+                (str "n:\t" n "\n"
+                     "game:\n" (print-world @game) "\n"
+                     "exp:\n" expected "\n"
+                     "neighbourhood:\n" neighbourhood))))
+
+(Then #"^then the (\d+) neighbourhood sampled at \((\d+),(\d+)\) is:$"
+      [ns xs ys expected]
+      (let [x (read-string xs)
+            y (read-string ys)
+            [w h :as dims] (find-dimensions expected)
+            n (read-string ns)
+            neighbourhood (print-sample (nth @hoods n) [[x y]
+                                                        [(+ (dec w) x)
+                                                         (+ (dec h) y)]])]
+        (assert (= expected neighbourhood) (str "n:\t" n "\n"
+                                                "dims:\t" dims "\n"
+                                                "exp:\n" expected "\n"
+                                                "neighbourhood:\n" neighbourhood
+                                                "\n"))))

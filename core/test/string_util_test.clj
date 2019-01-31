@@ -22,10 +22,10 @@ X,0,0")
   "0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,X,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0,0,0,0,0,0
+0,X,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -40,6 +40,11 @@ X,0,0")
 0,0,0,0,0,0
 0,0,0,0,X,X
 0,0,0,X,0,0")
+
+(def sample-t2
+  "0,0,0,0,0,0
+0,X,X,0,X,X
+0,X,X,0,X,X")
 
 (deftest string-to-col
   (testing "we can take a string and get it into a collection"
@@ -59,9 +64,11 @@ X,0,0")
            (print-world (parse-world t1)))))
   (testing "prints a larger world"
     (is (= big-t1
-           (print-world (into #{} (g/translate-cells[10 10]
-                                                    (parse-world t1)))))))
+           (print-world (parse-world big-t1)))))
   (testing "prints a sample"
     (is (= sample-t1 (print-sample (into #{} (g/translate-cells[10 10]
                                                         (parse-world t1)))
-                                   [[7,7][12, 12]])))))
+                                   [[7,7][12, 12]]))))
+
+  (testing "prints a slightly more complicated sample"
+    (is (= sample-t2 (print-world (parse-world sample-t2))))))
