@@ -88,3 +88,7 @@
                                                 "exp:\n" expected "\n"
                                                 "neighbourhood:\n" neighbourhood
                                                 "\n"))))
+(Then #"^we have (\d+) neighbourhoods$" [ns]
+      (assert (= (read-string ns) (count @hoods))
+              (str "Exp: " (read-string ns)
+                   "Count: " (count @hoods))))

@@ -96,4 +96,7 @@ Scenario: Lets try counting neighbourhoods with a Gosper gun
   ............OO......................
   """
   When we request neighbourhoods
-  Then we have 4 neighbourhoods
+  Then we have 10 neighbourhoods
+  When we advance the game 50 times
+   And we request neighbourhoods
+  Then we have 9 neighbourhoods
