@@ -2,75 +2,74 @@ Feature: Stable patterns
   Scenario: Block
     Given we have a game:
       """
-      0,0,0,0
-      0,X,X,0
-      0,X,X,0
-      0,0,0,0
+      ....
+      .OO.
+      .OO.
+      ....
       """
+
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0
-      0,X,X,0
-      0,X,X,0
-      0,0,0,0
+      ....
+      .OO.
+      .OO.
+      ....
       """
 
   Scenario: Behive
     Given we have a game:
       """
-      0,0,0,0,0,0
-      0,0,X,X,0,0
-      0,X,0,0,X,0
-      0,0,X,X,0,0
-      0,0,0,0,0,0
+      ......
+      ..OO..
+      .O..O.
+      ..OO..
+      ......
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,0,X,X,0,0
-      0,X,0,0,X,0
-      0,0,X,X,0,0
-      0,0,0,0,0,0
+      ......
+      ..OO..
+      .O..O.
+      ..OO..
+      ......
       """
 
   Scenario: Loaf
     Given we have a game:
       """
-      0,0,0,0,0,0
-      0,0,X,X,0,0
-      0,X,0,0,X,0
-      0,0,X,0,X,0
-      0,0,0,X,0,0
-      0,0,0,0,0,0
+      ......
+      ..OO..
+      .O..O.
+      ..O.O.
+      ...O..
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,0,X,X,0,0
-      0,X,0,0,X,0
-      0,0,X,0,X,0
-      0,0,0,X,0,0
-      0,0,0,0,0,0
+      ......
+      ..OO..
+      .O..O.
+      ..O.O.
+      ...O..
       """
 
   Scenario: Tub
     Given we have a game:
       """
-      0,0,0,0,0
-      0,0,X,0,0
-      0,X,0,X,0
-      0,0,X,0,0
-      0,0,0,0,0
+      .....
+      ..O..
+      .O.O.
+      ..O..
+      .....
       """
     When we advance the game
     Then the game state is:
-      """
-      0,0,0,0,0
-      0,0,X,0,0
-      0,X,0,X,0
-      0,0,X,0,0
-      0,0,0,0,0
-      """
+    """
+    .....
+    ..O..
+    .O.O.
+    ..O..
+    .....
+    """

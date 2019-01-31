@@ -7,18 +7,18 @@ Feature: Main game
   Scenario: A cell starts dead
     Given we have a game:
       """
-      0,0,0
-      0,0,0
-      0,0,0
+      ...
+      ...
+      ...
       """
     Then the cell 0,0 should be dead
 
   Scenario: A cell can be bought to life
     Given we have a game:
       """
-      X,0,0
-      0,0,0
-      0,0,0
+      O..
+      ...
+      ...
       """
     Then the cell 0,0 should be alive
     And the cell 0,1 should be dead
@@ -26,9 +26,9 @@ Feature: Main game
   Scenario: Loneliness
     Given we have a game:
       """
-      X,0,0
-      0,0,0
-      0,0,0
+      O..
+      ...
+      ...
       """
     When we advance the game
     Then the cell 0,0 should be dead
@@ -36,49 +36,49 @@ Feature: Main game
   Scenario: Survival with 2 neighbours and a little reproduction
     Given we have a game:
       """
-      0,0,0,0,0
-      0,X,X,X,0
-      0,0,0,0,0
+      .....
+      .OOO.
+      .....
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,X,0,0
-      0,0,X,0,0
-      0,0,X,0,0
+      ..O..
+      ..O..
+      ..O..
       """
 
 
   Scenario: Explode
     Given we have a game:
       """
-      0,0,0,0,0
-      0,X,X,X,0
-      0,X,X,X,0
-      0,X,X,X,0
-      0,0,0,0,0
+      .....
+      .OOO.
+      .OOO.
+      .OOO.
+      .....
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,X,0,0
-      0,X,0,X,0
-      X,0,0,0,X
-      0,X,0,X,0
-      0,0,X,0,0
+      ..O..
+      .O.O.
+      O...O
+      .O.O.
+      ..O..
       """
 
   Scenario: Reproduction
     Given we have a game:
       """
-      X,X,0
-      X,0,0
-      0,0,0
+      OO.
+      O..
+      ...
       """
     When we advance the game
     Then the game state is:
       """
-      X,X,0
-      X,X,0
-      0,0,0
+      OO.
+      OO.
+      ...
       """

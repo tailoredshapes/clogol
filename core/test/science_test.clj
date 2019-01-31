@@ -8,9 +8,9 @@
 (stest/instrument)
 
 (def t1
-  "0,0,0,0,0
-   0,X,X,X,0
-   0,0,0,0,0")
+  ".....
+  .OOO.
+  .....")
 
 (deftest subsets
   (testing "should return a subset of the world"

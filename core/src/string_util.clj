@@ -13,10 +13,8 @@
   :ret ::csv)
 
 (defn csv [s]
-  (map (fn [s]
-         (map st/trim
-              (st/split s #",")))
-       (st/split-lines s)))
+  (map #(st/split % #"")
+       (map st/trim (st/split-lines s))))
 
 
 (defn find-dimensions [s]
@@ -32,7 +30,7 @@
   (remove nil? (apply concat
                       (map-indexed (fn [y line]
                                      (map-indexed (fn [x v]
-                                                    (if (= v "X")
+                                                    (if (= v "O")
                                                       [x y])) line)) t))))
 
 (s/fdef parse-world
@@ -46,24 +44,21 @@
 (defn line-world [w [[mnx mny] [mxx mxy] :as dim]]
   (for [y (range mny (inc mxy))
         x (range mnx (inc mxx))]
-    (if (g/alive? w [x y]) "X" "0")))
+    (if (g/alive? w [x y]) "O" ".")))
 
 (s/fdef print-world
   :args (s/cat :w :gol/world)
   :ret string?)
 (defn print-world [w]
   (let [[[mnx mny] [mxx mxy] :as dim] (sci/dimensions w)]
-    (st/join "\n"
-             (map (partial st/join ",")
-                  (partition (inc (- mxx mnx))
-                             (line-world w dim)))) ))
+    (st/join "\n" (map (partial apply str)
+                       (partition (inc (- mxx mnx))
+                                  (line-world w dim))))))
 
 (s/fdef print-sample
   :args (s/cat :w :gol/world :dims (s/coll-of :gol/coord :size 2))
   :ret string?)
-(defn print-sample [w dim]
-  (st/join "\n"
-           (map (partial st/join ",")
-                (partition (inc (- (get-in dim [1 0])
-                                   (get-in dim [0 0])))
-                           (line-world w dim)))))
+(defn print-sample [w [[mnx mny] [mxx mxy] :as dim]]
+  (st/join "\n" (map (partial apply str)
+                     (partition (inc (- mxx mnx))
+                                (line-world w dim)))))

@@ -2,118 +2,98 @@ Feature: Oscillating patterns
   Scenario: Blinker
     Given we have a game:
       """
-      0,0,0,0,0
-      0,0,X,0,0
-      0,0,X,0,0
-      0,0,X,0,0
-      0,0,0,0,0
+      .....
+      ..O..
+      ..O..
+      ..O..
+      .....
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0
-      0,0,0,0,0
-      0,X,X,X,0
-      0,0,0,0,0
-      0,0,0,0,0
+      .....
+      .....
+      .OOO.
+      .....
+      .....
       """
 
     Given we have a game:
       """
-      0,0,0,0,0
-      0,0,0,0,0
-      0,X,X,X,0
-      0,0,0,0,0
-      0,0,0,0,0
+      .....
+      .....
+      .OOO.
+      .....
+      .....
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0
-      0,0,X,0,0
-      0,0,X,0,0
-      0,0,X,0,0
-      0,0,0,0,0
+      .....
+      ..O..
+      ..O..
+      ..O..
+      .....
       """
 
   Scenario: Blinker
     Given we have a game:
       """
-      0,0,0,0,0,0
-      0,0,0,X,0,0
-      0,X,0,0,X,0
-      0,X,0,0,X,0
-      0,0,X,0,0,0
-      0,0,0,0,0,0
+      ......
+      ...O..
+      .O..O.
+      .O..O.
+      ..O...
+      ......
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,0,0,0,0,0
-      0,0,X,X,X,0
-      0,X,X,X,0,0
-      0,0,0,0,0,0
-      0,0,0,0,0,0
-      """
-
-    Given we have a game:
-      """
-      0,0,0,0,0,0
-      0,0,0,0,0,0
-      0,0,X,X,X,0
-      0,X,X,X,0,0
-      0,0,0,0,0,0
-      0,0,0,0,0,0
+      ......
+      ......
+      ..OOO.
+      .OOO..
+      ......
+      ......
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,0,0,X,0,0
-      0,X,0,0,X,0
-      0,X,0,0,X,0
-      0,0,X,0,0,0
-      0,0,0,0,0,0
+      ......
+      ...O..
+      .O..O.
+      .O..O.
+      ..O...
+      ......
       """
 
   Scenario: Beacon
     Given we have a game:
       """
-      0,0,0,0,0,0
-      0,X,X,0,0,0
-      0,X,0,0,0,0
-      0,0,0,0,X,0
-      0,0,0,X,X,0
-      0,0,0,0,0,0
+      ......
+      .OO...
+      .O....
+      ....O.
+      ...OO.
+      ......
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,X,X,0,0,0
-      0,X,X,0,0,0
-      0,0,0,X,X,0
-      0,0,0,X,X,0
-      0,0,0,0,0,0
-      """
-
-    Given we have a game:
-      """
-      0,0,0,0,0,0
-      0,X,X,0,0,0
-      0,X,X,0,0,0
-      0,0,0,X,X,0
-      0,0,0,X,X,0
-      0,0,0,0,0,0
+      ......
+      .OO...
+      .OO...
+      ...OO.
+      ...OO.
+      ......
       """
     When we advance the game
     Then the game state is:
       """
-      0,0,0,0,0,0
-      0,X,X,0,0,0
-      0,X,0,0,0,0
-      0,0,0,0,X,0
-      0,0,0,X,X,0
-      0,0,0,0,0,0
+      ......
+      .OO...
+      .O....
+      ....O.
+      ...OO.
+      ......
       """

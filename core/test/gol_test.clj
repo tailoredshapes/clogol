@@ -7,23 +7,23 @@
 (stest/instrument)
 
 (def t1
-  "0,0,0,0,0
-   0,X,X,X,0
-   0,0,0,0,0")
+  ".....
+  .OOO.
+  .....")
 
 (def t1'
-  "0,0,X,0,0
-   0,0,X,0,0
-   0,0,X,0,0")
+  "..O..
+  ..O..
+  ..O..")
 
 (def neighbours-of-11
-  "X,X,X
-   X,0,X
-   X,X,X")
+  "OOO
+  O.O
+  OOO")
 
 (def neighbours-of-00
-  "0,X,0
-   X,X,0")
+  ".O.
+  OO.")
 
 
 (deftest starts-dead
