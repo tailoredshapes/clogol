@@ -1,10 +1,15 @@
-# clojure-cukes
+# clogol
 
-Just a little example illustrating how to use Cucumber with Clojure and Leiningen. Please note that the example uses https://github.com/nilswloka/lein-cucumber, which requires Leiningen 2.
+Clojure game of life.
+
+An ongoing project to test out building a game of life at scale.
+
+Maybe interesting to some of my collegues as it shows reusing BDD style tests.
 
 ## Running cukes
 
 ```
-lein2 deps
-lein2 cucumber
+cd core
+lein test
+lein cucumber --glue acceptance/step_definitions
 ```
